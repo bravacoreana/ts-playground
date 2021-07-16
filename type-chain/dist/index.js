@@ -1,23 +1,62 @@
-class Hooman {
-    constructor(name, age, gender) {
-        this.name = name;
-        this.age = age;
-        this.gender = gender;
-    } // constructor: 클래스가 시작할 때마다 호출 됨
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const CryptoJS = require("crypto-js");
+class Block {
+    constructor(index, hash, previousHash, data, timestamp) {
+        this.index = index;
+        this.hash = hash;
+        this.previousHash = previousHash;
+        this.data = data;
+        this.timestamp = timestamp;
+    }
 }
-const Nenya = new Hooman("nenya", 1, "female");
-const person = {
-    name: "bilbo",
-    age: 1,
-    gender: "female"
+Block.calculateBlockHash = (index, previousHash, timestamp, data) => CryptoJS.SHA256(index + previousHash + timestamp + data).toString();
+// SHA: Secure Hash Algorithm
+// SHA256: 64 자리 문자열 반환(256비트, 2의 256제곱만큼)
+Block.validateStructure = (aBlock) => typeof aBlock.index === "number" &&
+    typeof aBlock.hash === "string" &&
+    typeof aBlock.previousHash === "string" &&
+    typeof aBlock.timestamp === "number" &&
+    typeof aBlock.data === "string";
+const genesisBlock = new Block(0, "20202020202020", "", "hello", 123456);
+let blockchain = [genesisBlock];
+const getBlockchain = () => blockchain;
+const getLatestBlock = () => blockchain[blockchain.length - 1];
+const getNewTimestamp = () => Math.round(new Date().getTime() / 1000);
+const createNewBlock = (data) => {
+    const previousBlock = getLatestBlock();
+    const newIndex = previousBlock.index + 1;
+    const newTimestamp = getNewTimestamp();
+    const newHash = Block.calculateBlockHash(newIndex, previousBlock.hash, newTimestamp, data);
+    const newBlock = new Block(newIndex, newHash, previousBlock.hash, data, newTimestamp);
+    addBlock(newBlock);
+    return newBlock;
 };
-const sayHi = (person) => {
-    console.log(`hi!, ${person.name}. you are ${person.age} and ${person.gender}`);
+const getHashForBlock = (newBlock) => Block.calculateBlockHash(newBlock.index, newBlock.previousHash, newBlock.timestamp, newBlock.data);
+const isBlockValid = (candidateBlock, previousBlock) => {
+    if (!Block.validateStructure(candidateBlock)) {
+        return false;
+    }
+    else if (previousBlock.index + 1 !== candidateBlock.index) {
+        return false;
+    }
+    else if (previousBlock.hash !== candidateBlock.previousHash) {
+        return false;
+    }
+    else if (getHashForBlock(candidateBlock) !== candidateBlock.hash) {
+        return false;
+    }
+    else {
+        return true;
+    }
 };
-const sayBye = (person) => {
-    // console.log(`hi!, ${person.name}. you are ${person.age} and ${person.gender}`);
-    // error at age: age is private and only assignable within class 'Hooman'
+const addBlock = (candidateBlock) => {
+    if (isBlockValid(candidateBlock, getLatestBlock())) {
+        blockchain.push(candidateBlock);
+    }
 };
-sayHi(person);
-sayBye(Nenya);
+createNewBlock("second Block");
+createNewBlock("third Block");
+createNewBlock("fourth Block");
+console.log(blockchain);
 //# sourceMappingURL=index.js.map
