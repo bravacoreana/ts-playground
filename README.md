@@ -2,6 +2,7 @@
 
 - [ts-programming](./00-ts-programming/) - TypeScript Programming, O'Reilly, Boris Cherny
 - [type-chain](./type-chain/)
+- [time-extension](./timer-extension/)
 
 ## typescript setup
 
