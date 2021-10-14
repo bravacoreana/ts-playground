@@ -33,6 +33,8 @@
 
 - `tsconfig.json`
 
+  - [doc](https://www.typescriptlang.org/tsconfig
+
   ```json
   {
     "compilerOptions": {
