@@ -1,4 +1,3 @@
-import { DH_CHECK_P_NOT_PRIME } from 'constants'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './popup.css'
