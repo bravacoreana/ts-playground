@@ -7,6 +7,6 @@
     "esModuleInterop": true,
     "outDir": "dist"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/background/background.tsz"],
   "exclude": ["node_modules"]
 }
