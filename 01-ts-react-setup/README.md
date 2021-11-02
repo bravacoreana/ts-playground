@@ -42,3 +42,13 @@ npm i --save-dev clean-webpack-plugin
 - Folders get flattened, static references to images from HTML do not need to be relative (i.e. `icon.png` instead of `../static/icon.png`)
 - Importing local ts/tsx/css files should be relative, since Webpack will build a dependancy graph using these paths
 - Update the manifest file as per usual for chrome related permissions, references to files in here should also be flattened and not be relative
+
+## Design
+
+- [material ui](https://mui.com/)
+- [material ui installation](https://mui.com/components/icons/#installation)
+
+```
+npm install --save-dev @mui/material @emotion/react @emotion/styled
+npm install --save-dev @fontsource/roboto
+```
